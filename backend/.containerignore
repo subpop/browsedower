@@ -1,0 +1,23 @@
+# Database files
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Binary
+browsedower
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Docs
+*.md
+LICENSE
+

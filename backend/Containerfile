@@ -1,0 +1,49 @@
+# Build stage
+FROM docker.io/golang:1.23-alpine AS builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apk add --no-cache gcc musl-dev
+
+# Copy go mod files
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy source code
+COPY . .
+
+# Build the binary with CGO enabled for SQLite
+RUN CGO_ENABLED=1 go build -ldflags="-s -w" -o browsedower .
+
+# Runtime stage
+FROM docker.io/alpine:3.20
+
+WORKDIR /app
+
+# Install runtime dependencies
+RUN apk add --no-cache ca-certificates tzdata
+
+# Create non-root user
+RUN adduser -D -u 1000 browsedower
+
+# Copy binary and static files
+COPY --from=builder /app/browsedower .
+COPY --from=builder /app/static ./static
+
+# Create data directory for SQLite database
+RUN mkdir -p /data && chown browsedower:browsedower /data
+
+# Switch to non-root user
+USER browsedower
+
+# Environment variables
+ENV DB_PATH=/data/browsedower.db
+ENV PORT=8080
+
+EXPOSE 8080
+
+VOLUME ["/data"]
+
+CMD ["./browsedower"]
+
