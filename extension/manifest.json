@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Browsedower Web Filter",
+  "name": "Watchtower Web Filter",
   "version": "1.0.0",
   "description": "Web filter with approval workflow for safe browsing",
   "permissions": [

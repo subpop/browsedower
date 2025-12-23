@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/browsedower/web/middleware"
-	"github.com/browsedower/web/models"
-	"github.com/browsedower/web/services"
+	"github.com/watchtower/web/middleware"
+	"github.com/watchtower/web/models"
+	"github.com/watchtower/web/services"
 	"github.com/gorilla/mux"
 )
 
@@ -165,10 +165,10 @@ func DeviceUninstall(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
 		w.Write([]byte(`<!DOCTYPE html>
 <html>
-<head><title>Browsedower</title></head>
+<head><title>Watchtower</title></head>
 <body style="font-family: system-ui; padding: 2rem; text-align: center;">
 <h1>Extension Uninstalled</h1>
-<p>The Browsedower extension has been uninstalled from this device.</p>
+<p>The Watchtower extension has been uninstalled from this device.</p>
 </body>
 </html>`))
 		return

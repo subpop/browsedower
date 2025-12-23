@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/browsedower/web/models"
-	"github.com/browsedower/web/websocket"
+	"github.com/watchtower/web/models"
+	"github.com/watchtower/web/websocket"
 	ws "github.com/gorilla/websocket"
 )
 

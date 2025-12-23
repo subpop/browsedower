@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/browsedower/web/database"
-	"github.com/browsedower/web/handlers"
-	"github.com/browsedower/web/middleware"
-	"github.com/browsedower/web/services"
-	"github.com/browsedower/web/websocket"
+	"github.com/watchtower/web/database"
+	"github.com/watchtower/web/handlers"
+	"github.com/watchtower/web/middleware"
+	"github.com/watchtower/web/services"
+	"github.com/watchtower/web/websocket"
 	"github.com/gorilla/mux"
 )
 
@@ -17,7 +17,7 @@ func main() {
 	// Initialize database
 	dbPath := os.Getenv("DB_PATH")
 	if dbPath == "" {
-		dbPath = "./browsedower.db"
+		dbPath = "./watchtower.db"
 	}
 
 	if err := database.Initialize(dbPath); err != nil {

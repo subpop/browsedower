@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/browsedower/web/models"
+	"github.com/watchtower/web/models"
 )
 
 type CreateUserRequest struct {

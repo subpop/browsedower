@@ -1,4 +1,4 @@
--- Initial schema for Browsedower
+-- Initial schema for Watchtower
 -- Creates all core tables
 
 CREATE TABLE IF NOT EXISTS users (

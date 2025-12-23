@@ -1,4 +1,4 @@
-module github.com/browsedower/web
+module github.com/watchtower/web
 
 go 1.24.0
 

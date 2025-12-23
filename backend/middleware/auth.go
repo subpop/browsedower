@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/browsedower/web/models"
+	"github.com/watchtower/web/models"
 )
 
 type contextKey string

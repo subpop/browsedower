@@ -1,5 +1,5 @@
 // ========================================
-// Browsedower Admin - Application
+// Watchtower Admin - Application
 // ========================================
 
 const API_BASE = '/api';

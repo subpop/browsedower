@@ -1,10 +1,10 @@
 // ========================================
-// Browsedower Extension - Background Service Worker
+// Watchtower Extension - Background Service Worker
 // ========================================
 
 // Configuration
-const CONFIG_KEY = 'browsedower_config';
-const PATTERNS_KEY = 'browsedower_patterns';
+const CONFIG_KEY = 'watchtower_config';
+const PATTERNS_KEY = 'watchtower_patterns';
 const SYNC_INTERVAL = 2 * 60 * 1000; // 2 minutes (fallback)
 const HEARTBEAT_INTERVAL = 1; // 1 minute
 const WS_RECONNECT_INTERVAL = 1; // 1 minute - check/reconnect WebSocket
@@ -51,7 +51,7 @@ async function fetchPatterns() {
     const config = await getConfig();
     
     if (!config.token || !config.apiUrl) {
-        console.log('Browsedower: Not configured');
+        console.log('Watchtower: Not configured');
         return null;
     }
     
@@ -90,10 +90,10 @@ async function fetchPatterns() {
         config.lastSync = new Date().toISOString();
         await setConfig(config);
         
-        console.log('Browsedower: Patterns synced', patterns);
+        console.log('Watchtower: Patterns synced', patterns);
         return patterns;
     } catch (error) {
-        console.error('Browsedower: Failed to fetch patterns', error);
+        console.error('Watchtower: Failed to fetch patterns', error);
         return null;
     }
 }
@@ -102,7 +102,7 @@ async function submitRequest(url) {
     const config = await getConfig();
     
     if (!config.token || !config.apiUrl) {
-        console.log('Browsedower: Not configured');
+        console.log('Watchtower: Not configured');
         return false;
     }
     
@@ -127,10 +127,10 @@ async function submitRequest(url) {
             throw new Error(`HTTP ${response.status}`);
         }
         
-        console.log('Browsedower: Request submitted for', url);
+        console.log('Watchtower: Request submitted for', url);
         return true;
     } catch (error) {
-        console.error('Browsedower: Failed to submit request', error);
+        console.error('Watchtower: Failed to submit request', error);
         return false;
     }
 }
@@ -163,10 +163,10 @@ async function sendHeartbeat() {
         config.lastHeartbeat = new Date().toISOString();
         await setConfig(config);
         
-        console.log('Browsedower: Heartbeat sent');
+        console.log('Watchtower: Heartbeat sent');
         return true;
     } catch (error) {
-        console.error('Browsedower: Failed to send heartbeat', error);
+        console.error('Watchtower: Failed to send heartbeat', error);
         return false;
     }
 }
@@ -178,7 +178,7 @@ async function setupUninstallUrl() {
     if (config.token && config.apiUrl) {
         const uninstallUrl = `${config.apiUrl}/api/uninstall?token=${encodeURIComponent(config.token)}`;
         chrome.runtime.setUninstallURL(uninstallUrl);
-        console.log('Browsedower: Uninstall URL configured');
+        console.log('Watchtower: Uninstall URL configured');
     }
 }
 
@@ -190,7 +190,7 @@ async function connectWebSocket() {
     const config = await getConfig();
     
     if (!config.token || !config.apiUrl) {
-        console.log('Browsedower: WebSocket not connecting - not configured');
+        console.log('Watchtower: WebSocket not connecting - not configured');
         return;
     }
     
@@ -205,18 +205,18 @@ async function connectWebSocket() {
     const wsUrl = config.apiUrl.replace(/^http/, 'ws') + '/api/ws?token=' + encodeURIComponent(config.token);
     
     try {
-        console.log('Browsedower: Connecting WebSocket...');
+        console.log('Watchtower: Connecting WebSocket...');
         ws = new WebSocket(wsUrl);
         
         ws.onopen = () => {
             wsConnected = true;
-            console.log('Browsedower: WebSocket connected');
+            console.log('Watchtower: WebSocket connected');
         };
         
         ws.onmessage = async (event) => {
             try {
                 const message = JSON.parse(event.data);
-                console.log('Browsedower: WebSocket message received', message.type);
+                console.log('Watchtower: WebSocket message received', message.type);
                 
                 if (message.type === 'patterns_updated') {
                     // Update patterns from WebSocket push
@@ -241,25 +241,25 @@ async function connectWebSocket() {
                     cfg.lastSync = new Date().toISOString();
                     await setConfig(cfg);
                     
-                    console.log('Browsedower: Patterns updated via WebSocket', patterns);
+                    console.log('Watchtower: Patterns updated via WebSocket', patterns);
                 }
             } catch (error) {
-                console.error('Browsedower: Failed to parse WebSocket message', error);
+                console.error('Watchtower: Failed to parse WebSocket message', error);
             }
         };
         
         ws.onclose = (event) => {
             wsConnected = false;
             ws = null;
-            console.log('Browsedower: WebSocket closed', event.code, event.reason);
+            console.log('Watchtower: WebSocket closed', event.code, event.reason);
         };
         
         ws.onerror = (error) => {
-            console.error('Browsedower: WebSocket error', error);
+            console.error('Watchtower: WebSocket error', error);
             wsConnected = false;
         };
     } catch (error) {
-        console.error('Browsedower: Failed to connect WebSocket', error);
+        console.error('Watchtower: Failed to connect WebSocket', error);
         wsConnected = false;
         ws = null;
     }
@@ -270,7 +270,7 @@ function disconnectWebSocket() {
         ws.close();
         ws = null;
         wsConnected = false;
-        console.log('Browsedower: WebSocket disconnected');
+        console.log('Watchtower: WebSocket disconnected');
     }
 }
 
@@ -383,7 +383,7 @@ chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
     const blocked = await shouldBlockUrl(url);
     
     if (blocked) {
-        console.log('Browsedower: Blocking', url);
+        console.log('Watchtower: Blocking', url);
         
         // Redirect to blocked page
         const blockedPageUrl = chrome.runtime.getURL('blocked.html') + 
@@ -470,7 +470,7 @@ async function periodicHeartbeat() {
     // Only send HTTP heartbeat if WebSocket is not connected
     // WebSocket handles heartbeat via ping/pong when connected
     if (config.token && !wsConnected) {
-        console.log('Browsedower: Sending HTTP heartbeat (WebSocket not connected)');
+        console.log('Watchtower: Sending HTTP heartbeat (WebSocket not connected)');
         await sendHeartbeat();
     }
 }
@@ -494,7 +494,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
 // Initial sync and WebSocket on startup
 chrome.runtime.onStartup.addListener(() => {
-    console.log('Browsedower: Extension startup');
+    console.log('Watchtower: Extension startup');
     setupUninstallUrl();
     connectWebSocket(); // WebSocket handles patterns sync and heartbeat
     periodicSync(); // Fallback sync
@@ -502,7 +502,7 @@ chrome.runtime.onStartup.addListener(() => {
 
 // Sync when extension is installed or updated
 chrome.runtime.onInstalled.addListener(() => {
-    console.log('Browsedower: Extension installed/updated');
+    console.log('Watchtower: Extension installed/updated');
     setupUninstallUrl();
     connectWebSocket(); // WebSocket handles patterns sync and heartbeat
     periodicSync(); // Fallback sync

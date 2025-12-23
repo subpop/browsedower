@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/browsedower/web/middleware"
-	"github.com/browsedower/web/models"
-	"github.com/browsedower/web/services"
+	"github.com/watchtower/web/middleware"
+	"github.com/watchtower/web/models"
+	"github.com/watchtower/web/services"
 	"github.com/gorilla/mux"
 )
 

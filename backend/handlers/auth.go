@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/browsedower/web/middleware"
-	"github.com/browsedower/web/models"
+	"github.com/watchtower/web/middleware"
+	"github.com/watchtower/web/models"
 )
 
 type LoginRequest struct {

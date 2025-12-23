@@ -5,7 +5,7 @@ import (
 	"log"
 
 	webpush "github.com/SherClockHolmes/webpush-go"
-	"github.com/browsedower/web/models"
+	"github.com/watchtower/web/models"
 )
 
 // PushService handles sending web push notifications
@@ -86,7 +86,7 @@ func (p *PushService) SendNotification(sub *models.PushSubscription, payload Not
 	}
 
 	resp, err := webpush.SendNotification(payloadBytes, subscription, &webpush.Options{
-		Subscriber:      "admin@browsedower.local",
+		Subscriber:      "admin@watchtower.local",
 		VAPIDPublicKey:  p.vapidPublicKey,
 		VAPIDPrivateKey: p.vapidPrivateKey,
 		TTL:             60,

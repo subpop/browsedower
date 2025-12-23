@@ -1,4 +1,4 @@
-# Browsedower Web Filter
+# Watchtower Web Filter
 
 A web filter approval system consisting of a Go backend API and a Chrome browser extension. The extension blocks URLs that don't match approved patterns and allows users to request access, which administrators can approve or deny through a web interface.
 
@@ -46,8 +46,8 @@ A web filter approval system consisting of a Go backend API and a Chrome browser
 
 3. Build and run:
    ```bash
-   go build -o browsedower .
-   ./browsedower
+   go build -o watchtower .
+   ./watchtower
    ```
 
    The server starts on `http://localhost:8080` by default.
@@ -64,10 +64,10 @@ Build and run using Podman or Docker:
 cd backend
 
 # Build the container
-podman build -t browsedower -f Containerfile .
+podman build -t watchtower -f Containerfile .
 
 # Run the container
-podman run -d -p 8080:8080 -v browsedower-data:/data browsedower
+podman run -d -p 8080:8080 -v watchtower-data:/data watchtower
 ```
 
 ### Chrome Extension
@@ -167,7 +167,7 @@ Examples:
 
 Environment variables:
 - `PORT`: Server port (default: `8080`)
-- `DB_PATH`: SQLite database path (default: `./browsedower.db`)
+- `DB_PATH`: SQLite database path (default: `./watchtower.db`)
 
 ### Extension
 
@@ -249,7 +249,7 @@ CREATE TABLE push_subscriptions (
 
 ```bash
 cd backend
-go build -o browsedower .
+go build -o watchtower .
 ```
 
 ### Running Migrations

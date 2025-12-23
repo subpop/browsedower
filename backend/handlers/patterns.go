@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/browsedower/web/middleware"
-	"github.com/browsedower/web/models"
 	"github.com/gorilla/mux"
+	"github.com/watchtower/web/middleware"
+	"github.com/watchtower/web/models"
 )
 
 type PatternResponse struct {
@@ -262,4 +262,3 @@ func TogglePattern(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(pattern)
 }
-

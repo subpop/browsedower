@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"time"
 
-	"github.com/browsedower/web/database"
+	"github.com/watchtower/web/database"
 	"golang.org/x/crypto/bcrypt"
 )
 

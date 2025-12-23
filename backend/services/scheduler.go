@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/browsedower/web/models"
+	"github.com/watchtower/web/models"
 )
 
 // StartScheduler starts background tasks

@@ -1,12 +1,12 @@
-// Service Worker for Browsedower Push Notifications
+// Service Worker for Watchtower Push Notifications
 
 self.addEventListener('install', (event) => {
-    console.log('Browsedower service worker installed');
+    console.log('Watchtower service worker installed');
     self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-    console.log('Browsedower service worker activated');
+    console.log('Watchtower service worker activated');
     event.waitUntil(clients.claim());
 });
 
@@ -14,7 +14,7 @@ self.addEventListener('push', (event) => {
     console.log('Push notification received:', event);
     
     let data = {
-        title: 'Browsedower',
+        title: 'Watchtower',
         body: 'You have a new notification',
         icon: '/admin/icon-192.png',
         url: '/admin/',

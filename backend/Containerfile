@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Build the binary with CGO enabled for SQLite
-RUN CGO_ENABLED=1 go build -ldflags="-s -w" -o browsedower .
+RUN CGO_ENABLED=1 go build -ldflags="-s -w" -o watchtower .
 
 # Runtime stage
 FROM docker.io/alpine:3.20
@@ -25,25 +25,25 @@ WORKDIR /app
 RUN apk add --no-cache ca-certificates tzdata
 
 # Create non-root user
-RUN adduser -D -u 1000 browsedower
+RUN adduser -D -u 1000 watchtower
 
 # Copy binary and static files
-COPY --from=builder /app/browsedower .
+COPY --from=builder /app/watchtower .
 COPY --from=builder /app/static ./static
 
 # Create data directory for SQLite database
-RUN mkdir -p /data && chown browsedower:browsedower /data
+RUN mkdir -p /data && chown watchtower:watchtower /data
 
 # Switch to non-root user
-USER browsedower
+USER watchtower
 
 # Environment variables
-ENV DB_PATH=/data/browsedower.db
+ENV DB_PATH=/data/watchtower.db
 ENV PORT=8080
 
 EXPOSE 8080
 
 VOLUME ["/data"]
 
-CMD ["./browsedower"]
+CMD ["./watchtower"]
 

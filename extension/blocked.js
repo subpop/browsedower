@@ -1,5 +1,5 @@
 // ========================================
-// Browsedower Extension - Blocked Page
+// Watchtower Extension - Blocked Page
 // ========================================
 
 const $ = (selector) => document.querySelector(selector);
@@ -70,21 +70,21 @@ function sendMessage(message) {
 
 async function submitRequest(e) {
     e.preventDefault();
-    
+
     const url = getBlockedUrl();
     if (!url) {
         showError();
         return;
     }
-    
+
     showLoading();
-    
+
     try {
         const result = await sendMessage({
             action: 'submitRequest',
             url: url
         });
-        
+
         if (result.success) {
             showSuccess();
         } else {
@@ -110,17 +110,17 @@ function goBack() {
 
 document.addEventListener('DOMContentLoaded', () => {
     const blockedUrl = getBlockedUrl();
-    
+
     // Display blocked URL as clickable link
     const urlElement = $('#blocked-url');
     urlElement.textContent = blockedUrl || 'Unknown URL';
     if (blockedUrl) {
         urlElement.href = blockedUrl;
     }
-    
+
     // Suggest pattern
     $('#pattern').value = extractDomain(blockedUrl);
-    
+
     // Event listeners
     $('#request-form').addEventListener('submit', submitRequest);
     $('#go-back-btn').addEventListener('click', goBack);
